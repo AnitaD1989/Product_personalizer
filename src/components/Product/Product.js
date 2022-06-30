@@ -1,64 +1,56 @@
 import styles from './Product.module.scss';
-import clsx from 'clsx';
 import {useState} from 'react';
+import ProductForm from '../ProductForm/ProductForm';
+import ProductImage from '../ProductImage/ProductImage';
+import PropTypes from "prop-types";
 
 const Product = props => {
 
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
   const [currentSize, setCurrentSize] = useState(props.sizes[0].name);
 
-  const prepareColorClassName = color => {
-    return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
-  }
-
   const getPrice = () => {
     const price = props.sizes.find(({name}) => name === currentSize)
     return props.basePrice + price.additionalPrice;
   }
 
-  const Button = props => {
-    return (
-      <button className={clsx(styles.button,props.className)}onClick={props.handleSubmit}>{props.children}</button>
-      )
-  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log("Added product");
+    console.log("==========");
+    console.log ("Title", props.title);
+    console.log("Price", getPrice());
+    console.log("Size", currentSize);
+    console.log("Color", currentColor);
+}
 
     return (
     <article className={styles.product}>
-      <div className={styles.imageContainer}>
-        <img 
-          className={styles.image}
-          alt={props.title}
-          src={`${process.env.PUBLIC_URL}/images/products/shirt-${props.name}--${currentColor}.jpg`} />
-      </div>
+      <ProductImage 
+        name={props.name}
+        color={currentColor}
+      />
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
           <span className={styles.price}>Price:{getPrice()}$</span>
         </header>
-        <form>
-          <div className={styles.sizes}>
-            <h3 className={styles.optionLabel}>Sizes</h3>
-            <ul className={styles.choices}>
-              {props.sizes.map(item =>
-                <li key={item.name}><button type="button" onClick={() => setCurrentSize(item.name)} className={clsx( item.name) === currentSize && styles.active}>{item.name}</button></li>)}
-            </ul>
-          </div>
-          <div className={styles.colors}>
-            <h3 className={styles.optionLabel}>Colors</h3>
-            <ul className={styles.choices}>
-              {props.colors.map(item => <li key={item}><button type="button" onClick={() => setCurrentColor(item)} className={clsx(prepareColorClassName(item), item === currentColor && styles.active)}/></li>)}
-            </ul>
-          </div>
-  
-          <Button 
-            className={styles.button}
-            handleSubmit={props.handleSubmit}>
-            <span className="fa fa-shopping-cart" />
-          </Button>
-        </form>
+        <ProductForm 
+          {...props} 
+          currentColor={currentColor} 
+          setCurrentColor={setCurrentColor} 
+          currentSize={currentSize} 
+          setCurrentSize={setCurrentSize} 
+          handleSubmit={handleSubmit}
+        />
       </div>
     </article>
-  )
+  );
 };
+
+Product.propTypes = {
+  price: PropTypes.number
+}
 
 export default Product;
