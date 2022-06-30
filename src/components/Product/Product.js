@@ -1,8 +1,6 @@
 import styles from './Product.module.scss';
 import clsx from 'clsx';
-import Button from '../Button/Button';
 import {useState} from 'react';
-import PropTypes from 'prop-types';
 
 const Product = props => {
 
@@ -13,12 +11,16 @@ const Product = props => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
   }
 
-  const getPrice = props => {
+  const getPrice = () => {
     const price = props.sizes.find(({name}) => name === currentSize)
     return props.basePrice + price.additionalPrice;
-  },[currentSize, props.basePrice, props.sizes]);
+  }
 
-
+  const Button = props => {
+    return (
+      <button className={clsx(styles.button,props.className)}onClick={props.handleSubmit}>{props.children}</button>
+      )
+  };
 
     return (
     <article className={styles.product}>
@@ -48,7 +50,9 @@ const Product = props => {
             </ul>
           </div>
   
-          <Button className={styles.button}>
+          <Button 
+            className={styles.button}
+            handleSubmit={props.handleSubmit}>
             <span className="fa fa-shopping-cart" />
           </Button>
         </form>
