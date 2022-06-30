@@ -13,9 +13,9 @@ const ProductImage = props =>{
 };
 
 ProductImage.propTypes = {
-  name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
+  name: PropTypes.string,
+  title: PropTypes.string,
+  color: PropTypes.string
 };
 
 export default ProductImage;

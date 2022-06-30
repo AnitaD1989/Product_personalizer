@@ -3,16 +3,18 @@ import {useState} from 'react';
 import ProductForm from '../ProductForm/ProductForm';
 import ProductImage from '../ProductImage/ProductImage';
 import PropTypes from "prop-types";
+import { useMemo } from 'react';
 
 const Product = props => {
 
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
   const [currentSize, setCurrentSize] = useState(props.sizes[0].name);
 
-  const getPrice = () => {
+  const getPrice = useMemo (() => {
     const price = props.sizes.find(({name}) => name === currentSize)
     return props.basePrice + price.additionalPrice;
-  }
+
+  }, [props.basePrice, currentSize, props.sizes]);
 
 
   const handleSubmit = event => {
@@ -34,7 +36,7 @@ const Product = props => {
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
-          <span className={styles.price}>Price:{getPrice()}$</span>
+          <span className={styles.price}>Price:{getPrice}$</span>
         </header>
         <ProductForm 
           {...props} 
