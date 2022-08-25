@@ -1,12 +1,10 @@
-import styles from "./ProductForm.module.scss";
-
 import Button from "../Button/Button";
 import OptionSize from "../OptionSize/OptionSize";
 import OptionColor from "../OptionColor/OptionColor";
 
 const ProductForm = props => {
   return(
-    <form>
+    <form onSubmit={props.handleSubmit}>
       <OptionSize 
         sizes={props.sizes}
         currentSize={props.currentSize}
@@ -17,9 +15,7 @@ const ProductForm = props => {
         currentColor={props.currentColor}
         setCurrentColor={props.setCurrentColor}
       />
-      <Button
-        className={styles.button}
-        handleSubmit={props.handleSubmit}>
+      <Button handleSubmit={props.handleSubmit}>
         <span className="fa fa-shopping-cart" />
       </Button>
 

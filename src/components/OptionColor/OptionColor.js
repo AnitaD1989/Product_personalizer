@@ -1,5 +1,4 @@
 import styles from "./OptionColor.module.scss";
-
 import clsx from "clsx";
 
 
@@ -14,8 +13,9 @@ const OptionColor = props => {
       <h3 className={styles.optionLabel}>Colors</h3>
       <ul className={styles.choices}>
         {props.colors.map(item => 
-          <li key={item}>
-            <button type="button" onClick={() => props.setCurrentColor(item)} className={clsx(prepareColorClassName(item), item === props.currentColor && styles.active)}/>
+          <li>
+            <button type="button"  key={item} className={clsx(prepareColorClassName(item), item === props.currentColor && styles.active)}
+             onClick={() => props.setCurrentColor(item)} />
           </li>
         )}
       </ul>
